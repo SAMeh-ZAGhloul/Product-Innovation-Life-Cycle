@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Innovation Life Cycle Policy v1.0 — Fixed Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F4F2EE;
+    --surface: #FFFFFF;
+    --surface2: #EDEAE3;
+    --border: rgba(0,0,0,0.09);
+    --border-strong: rgba(0,0,0,0.16);
+    --text: #1A1916;
+    --text-2: #615F58;
+    --text-3: #9A9890;
+    --green: #1A6B45;
+    --green-l: #E3F4EC;
+    --green-m: #4DAF82;
+    --amber: #9E6A0A;
+    --amber-l: #FEF3DC;
+    --amber-m: #F5B731;
+    --blue: #1A5EA8;
+    --blue-l: #E5EFF9;
+    --teal: #0F6B5A;
+    --teal-l: #E0F3EE;
+    --red: #9B2F2F;
+    --red-l: #FAEAEA;
+    --purple: #4A42B0;
+    --purple-l: #EEEDFB;
+    --accent: #1A6B45;
+  }
+  *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--text);min-height:100vh;font-size:15px;line-height:1.6}
+
+  /* Header */
+  header{background:var(--surface);border-bottom:1px solid var(--border);padding:16px 28px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100}
+  .logo{display:flex;align-items:center;gap:10px}
+  .logo-mark{width:30px;height:30px;background:var(--green);border-radius:7px;display:flex;align-items:center;justify-content:center;font-family:'DM Mono',monospace;font-size:12px;font-weight:500;color:#fff}
+  .logo-text{font-size:13px;font-weight:500;color:var(--text-2)}
+  .doc-meta{font-size:11px;color:var(--text-3);font-family:'DM Mono',monospace;text-align:right;line-height:1.5}
+
+  /* Layout */
+  .container{max-width:1040px;margin:0 auto;padding:36px 20px 80px}
+  .page-title{font-size:26px;font-weight:300;letter-spacing:-0.4px;margin-bottom:4px}
+  .page-sub{font-size:13px;color:var(--text-2);margin-bottom:8px}
+  .policy-badge{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-family:'DM Mono',monospace;color:var(--green);background:var(--green-l);border:0.5px solid rgba(26,107,69,0.25);border-radius:20px;padding:3px 10px;margin-bottom:28px}
+
+  /* Cycle visual */
+  .cycle-wrap{margin-bottom:32px;background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;display:flex;flex-direction:column;align-items:center}
+  .cycle-title{font-size:11px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Mono',monospace;color:var(--text-3);margin-bottom:20px;align-self:flex-start}
+  .cycle-nodes{display:flex;align-items:center;gap:0;flex-wrap:wrap;justify-content:center;width:100%}
+  .cycle-node{flex-shrink:0;display:flex;flex-direction:column;align-items:center}
+  .cycle-arrow{font-size:13px;color:var(--text-3);padding:0 3px;flex-shrink:0}
+  .cn-btn{background:var(--surface2);border:1px solid var(--border);border-radius:10px;padding:10px 13px;cursor:pointer;min-width:88px;max-width:106px;text-align:center;transition:all 0.15s;outline:none;position:relative}
+  .cn-btn:hover{border-color:var(--border-strong);transform:translateY(-2px);box-shadow:0 3px 10px rgba(0,0,0,0.07)}
+  .cn-btn.filter-node{background:var(--green-l);border-color:rgba(26,107,69,0.3)}
+  .cn-btn.filter-node.active{background:var(--green);border-color:var(--green)}
+  .cn-btn.filter-node.active .cn-name{color:#fff}
+  .cn-btn.filter-node.active .cn-num{color:rgba(255,255,255,0.7)}
+  .cn-btn.active{border-color:var(--green);background:var(--green-l)}
+  .cn-btn.active .cn-name{color:var(--green)}
+  .cn-btn.active .cn-num{color:var(--green-m)}
+  .cn-num{font-family:'DM Mono',monospace;font-size:10px;color:var(--text-3);margin-bottom:3px}
+  .cn-name{font-size:11px;font-weight:500;color:var(--text);line-height:1.3}
+  .filter-badge{position:absolute;top:-7px;right:-7px;background:var(--green);color:#fff;font-size:9px;font-family:'DM Mono',monospace;border-radius:10px;padding:2px 6px;line-height:1.3;white-space:nowrap}
+
+  /* Progress */
+  .prog-wrap{margin-bottom:24px}
+  .prog-meta{display:flex;justify-content:space-between;font-size:11px;color:var(--text-3);font-family:'DM Mono',monospace;margin-bottom:5px}
+  .prog-track{height:3px;background:var(--border);border-radius:2px;overflow:hidden}
+  .prog-fill{height:100%;background:var(--green);border-radius:2px;transition:width 0.4s cubic-bezier(0.4,0,0.2,1)}
+
+  /* Panel */
+  .panel{background:var(--surface);border:1px solid var(--border);border-radius:16px;overflow:hidden;animation:fadeIn 0.2s ease}
+  @keyframes fadeIn{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:translateY(0)}}
+
+  .panel-header{padding:22px 26px 18px;border-bottom:1px solid var(--border);display:flex;align-items:flex-start;gap:14px}
+  .ph-icon{width:42px;height:42px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:19px;flex-shrink:0}
+  .ph-icon.filter{background:var(--green-l)}
+  .ph-icon.process{background:var(--blue-l)}
+  .ph-title{font-size:18px;font-weight:500;letter-spacing:-0.3px}
+  .ph-owner{font-size:12px;color:var(--text-3);margin-top:2px;font-family:'DM Mono',monospace}
+  .ph-sub{font-size:13px;color:var(--text-2);margin-top:3px}
+
+  .panel-body{padding:22px 26px;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+  @media(max-width:620px){.panel-body{grid-template-columns:1fr}}
+  .full{grid-column:1/-1}
+
+  .sec-label{font-size:10px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;font-family:'DM Mono',monospace;color:var(--text-3);margin-bottom:8px}
+
+  .pills{display:flex;flex-wrap:wrap;gap:5px}
+  .pill{font-size:12px;padding:4px 10px;border-radius:20px;line-height:1.4}
+  .pill.obj{background:var(--blue-l);border:0.5px solid rgba(26,94,168,0.2);color:var(--blue)}
+  .pill.out{background:var(--teal-l);border:0.5px solid rgba(15,107,90,0.2);color:var(--teal)}
+  .pill.kpi{background:var(--purple-l);border:0.5px solid rgba(74,66,176,0.2);color:var(--purple)}
+  .pill.warn{background:var(--amber-l);border:0.5px solid rgba(158,106,10,0.2);color:var(--amber)}
+  .pill.ok{background:var(--green-l);border:0.5px solid rgba(26,107,69,0.25);color:var(--green)}
+
+  .act-list{list-style:none}
+  .act-list li{font-size:13px;color:var(--text-2);padding:7px 0 7px 18px;position:relative;line-height:1.55;border-bottom:0.5px solid var(--border)}
+  .act-list li:last-child{border-bottom:none}
+  .act-list li::before{content:'';position:absolute;left:3px;top:15px;width:5px;height:5px;border-radius:50%;background:var(--green-m)}
+
+  .committee-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  @media(max-width:500px){.committee-grid{grid-template-columns:1fr}}
+  .cm-card{background:var(--surface2);border-radius:10px;padding:14px 16px;border:0.5px solid var(--border)}
+  .cm-card-title{font-size:12px;font-weight:500;color:var(--text-2);margin-bottom:8px}
+  .cm-card ul{list-style:none}
+  .cm-card li{font-size:12px;color:var(--text-2);padding:3px 0 3px 14px;position:relative}
+  .cm-card li::before{content:'·';position:absolute;left:3px;color:var(--text-3)}
+
+  .trigger-note{background:var(--amber-l);border:0.5px solid rgba(158,106,10,0.2);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--amber);line-height:1.55}
+  .trigger-note strong{font-weight:500}
+
+  .filter-explain{background:var(--green-l);border:0.5px solid rgba(26,107,69,0.2);border-radius:10px;padding:14px 16px;font-size:13px;color:var(--green);line-height:1.55}
+
+  /* Nav */
+  .nav-row{display:flex;align-items:center;justify-content:space-between;margin-top:18px;gap:10px}
+  .nav-btn{font-family:'DM Sans',sans-serif;font-size:13px;font-weight:500;padding:8px 16px;border-radius:8px;border:1px solid var(--border-strong);background:var(--surface);color:var(--text);cursor:pointer;transition:all 0.12s}
+  .nav-btn:hover:not(:disabled){background:var(--surface2);border-color:var(--green);color:var(--green)}
+  .nav-btn:disabled{opacity:0.3;cursor:default}
+  .step-ctr{font-family:'DM Mono',monospace;font-size:12px;color:var(--text-3)}
+
+  /* Strategy section */
+  .strategy-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:10px}
+  .str-card{background:var(--surface2);border-radius:10px;padding:12px 14px;border:0.5px solid var(--border)}
+  .str-icon{font-size:18px;margin-bottom:6px}
+  .str-label{font-size:12px;font-weight:500;color:var(--text);line-height:1.4}
+  .str-desc{font-size:11px;color:var(--text-2);margin-top:3px;line-height:1.4}
+
+  .footer{margin-top:48px;padding-top:18px;border-top:1px solid var(--border);font-size:12px;color:var(--text-3);display:flex;justify-content:space-between;flex-wrap:wrap;gap:6px}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">FX</div>
+    <span class="logo-text">Fixed Solutions</span>
+  </div>
+  <div class="doc-meta">
+    Innovation Life Cycle Policy v1.0<br>
+    Issued: 8 March 2026 · Review: 8 March 2027
+  </div>
+</header>
+
+<div class="container">
+
+  <h1 class="page-title">Innovation Life Cycle</h1>
+  <p class="page-sub">A continuous, structured approach to evaluating and developing ideas from ideation to market.</p>
+  <div class="policy-badge">▲ Policy Document · v1.0 · Approved by CEO</div>
+
+  <div class="cycle-wrap">
+    <div class="cycle-title">Life cycle phases — click to explore</div>
+    <div class="cycle-nodes" id="cycle-nodes"></div>
+  </div>
+
+  <div class="prog-wrap">
+    <div class="prog-meta">
+      <span id="prog-label">Phase 1 of 7</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+  </div>
+
+  <div class="panel" id="panel"></div>
+
+  <div class="nav-row">
+    <button class="nav-btn" id="btn-prev" onclick="nav(-1)">← Previous</button>
+    <span class="step-ctr" id="step-ctr"></span>
+    <button class="nav-btn" id="btn-next" onclick="nav(1)">Next →</button>
+  </div>
+
+  <div class="footer">
+    <span>Prepared by: Innovation Committee (Led by Dr. Dina El Kayaly, Product Consultant)</span>
+    <span>Issued by: Human Resources Dept · Approved by: CEO</span>
+  </div>
+</div>
+
+<script>
+const phases = [
+  {
+    id: 0,
+    num: '01',
+    label: 'Ideation',
+    icon: '💡',
+    filter: false,
+    owner: 'VP of Growth and RevOps',
+    title: 'Ideation',
+    objective: 'Drive a continuous flow of product/offering ideas with high revenue potential, proposed by internal or external stakeholders.',
+    activities: [
+      'Invite and encourage internal and external stakeholders to propose ideas for new revenue-generating products/offerings',
+      'Each idea proposal must articulate: the pain/opportunity, solution vision, target market (initial customer persona), estimated market size with evidence, main competitors, key differentiators, alignment with corporate and innovation strategy, and high-level resource requirements',
+      'Ideas are submitted using the Fixed Solutions "Idea Brief" template along with all supporting data',
+      'Review each idea and supporting information for completeness and quality',
+      'Rate ideas against "Fixed Solutions Idea Qualification Criteria" — minimum acceptance score is 55% (to be raised as process matures)',
+      'Filter out ideas below minimum score; provide constructive feedback including recommendations for refinement, additional supporting data, or abandonment',
+      'Schedule an "Idea Governance Advisory Committee" meeting when: 5 months have passed without a meeting, 8+ ideas are queued, or a high-potential/urgent idea is identified',
+    ],
+    outputs: ['Prioritised list of ideas warranting further exploration', 'Agreed date for an Idea Validation meeting'],
+    kpis: ['Number of ideas approved by the Idea Governance Advisory Committee', 'Number of ideas successfully converted into products'],
+    trigger: null,
+  },
+  {
+    id: 1,
+    num: '02',
+    label: 'Idea\nValidation',
+    icon: '✅',
+    filter: true,
+    owner: 'VP of Growth and RevOps',
+    title: 'Idea Validation',
+    objective: 'Approve resource allocation for full business case development — only for ideas validated by the Idea Governance Advisory Committee.',
+    activities: [
+      'Select external committee members from the "Fixed Solutions Advisory Board" and internal members appointed by the CEO — ensuring no conflicts of interest',
+      'Send Idea Proposal documents to committee members for initial review (max 8 ideas per meeting)',
+      'For each idea: 10 min presentation by idea owner → 10 min Q&A and exploration → 10 min scoring and comment documentation',
+      'Rank ideas by score; allow 20 minutes for deliberation',
+      'Prepare final list of ideas accepted for further exploration based on "Fixed Solutions Idea Qualification Criteria"',
+      'Committee may: accept, reject, recommend refinements, set bold vision/aspiration, identify critical assumptions, oversee validation experiments, recommend pivot or abandonment',
+    ],
+    outputs: ['List of ideas accepted for further exploration', 'Approved budget and timeline for developing a business case for each accepted idea'],
+    kpis: ['Percentage of accepted ideas successfully converted into products'],
+    filterNote: 'This is a filter phase. Only ideas validated here receive approval for Business Case Development. No further resources should be invested in ideas that are not validated.',
+  },
+  {
+    id: 2,
+    num: '03',
+    label: 'Business Case\nDevelopment',
+    icon: '📊',
+    filter: false,
+    owner: 'VP of Growth and RevOps',
+    title: 'Business Case Development',
+    objective: 'Produce a formal business case for validated ideas, providing the justification for the investment decision by the Idea Governance Advisory Committee.',
+    activities: [
+      'Refine the product/offering concept: pain point, target market, and value proposition',
+      'Develop detailed operational and business models (how sold, delivered, supported, billed)',
+      'Develop and document solution architecture (if required)',
+      'Create a high-level project plan with clear timeline and cost (hardware, infrastructure, software dev, collateral, partnerships, sales training)',
+      'Develop a budget and cash flow estimate for the preparation plan',
+      'Build a cost model: cost elements per unit for delivering and supporting the product/offering',
+      'Map the competitive landscape and detail the competitive strategy and key differentiators',
+      'Size the TAM, SAM, and SOM of the proposed product/offering',
+      'Define pricing guidelines and develop a revenue model with expected monthly sales, delivery, and collection',
+      'Develop detailed overall cash flow forecast, required investment, and payback period',
+      'Develop detailed P&L model',
+      'Document all findings in the "Business Offering Proposal Document"',
+    ],
+    outputs: ['Business case document using Fixed Solutions "Business Case Template"'],
+    kpis: ['Number of product/offering business cases accepted by the Idea Governance Advisory Committee', 'Deviation between forecasted and actual market performance for launched products'],
+  },
+  {
+    id: 3,
+    num: '04',
+    label: 'Business Case\nEval. & Approval',
+    icon: '🏦',
+    filter: true,
+    owner: 'Head of Investment Committee / Group CEO',
+    title: 'Business Case Evaluation & Investment Approval',
+    objective: 'Ensure financial resources are allocated to the most promising products/offerings, aligned with company strategy and risk appetite.',
+    activities: [
+      'Review the full business case of the proposed product/offering',
+      'Review underlying data and information sources supporting the business case',
+      'Review and challenge assumptions and forecasts',
+      'Identify critical success factors and major risks',
+      'Review proposed risk mitigation approaches',
+      'Recommend any further reviews or required modifications to the business case',
+      'Vote on budget allocation for product development, organisational readiness, and product launch',
+    ],
+    outputs: ['Approved budget for product development, achieving organisational readiness, and product launch'],
+    kpis: ['Revenue per pound invested in innovation and product development (prior year)', 'Gross profit per pound invested in innovation and product development (prior year)', 'Number of unique customers purchasing new products', 'Number of industries penetrated'],
+    filterNote: 'This is a filter phase. Only business cases approved here receive a budget allocation for implementation. No product development should begin without this approval.',
+  },
+  {
+    id: 4,
+    num: '05',
+    label: 'Implementation\n& Launch Prep',
+    icon: '⚙️',
+    filter: false,
+    owner: 'Product Manager',
+    title: 'Implementation & Launch Preparation',
+    objective: 'Implement the product and ensure every aspect required for a successful product launch is in place and working correctly.',
+    activities: [
+      'Develop a detailed project plan based on the high-level plan included in the approved business case',
+      'Report to Head of Product Management and Investment Committee on cash expenditure correlated with implementation progress',
+      'Report on any deviation from the planned timeline and request escalation to the Investment Committee if justified',
+      'Monitor critical success factors and report deviations from expected conditions',
+      'Report on achieved milestones throughout implementation',
+      'Issue formal product readiness confirmation once all launch requirements are met',
+    ],
+    outputs: ['Formal confirmation from Product Manager that all aspects required for a successful launch are in place and functioning correctly'],
+    kpis: ['Number of man-days allocated to unplanned incidents during launch as a percentage of total man-days for the entire Implementation & Launch Preparation plan'],
+  },
+  {
+    id: 5,
+    num: '06',
+    label: 'Launch',
+    icon: '🚀',
+    filter: false,
+    owner: 'Product Manager',
+    title: 'Launch',
+    objective: 'Introduce the product to the market, put it on the radar of potential customers, on-board first customers, and address any unforeseen issues.',
+    activities: [
+      'Kick-start product launch activities within the company',
+      'Execute the product launch marketing plan',
+      'Execute the product launch sales plan',
+      'Respond to customer inquiries and support early adopters',
+      'Conduct market surveys to assess product launch success',
+      'Collect customer testimonials from early adopters',
+      'Review sales pipeline and reports; detect any deviation from forecasted sales, revenue, and cash flow',
+      'Identify root cause of any deviations',
+      'Take corrective action if required',
+      'Issue the formal product launch report',
+    ],
+    outputs: ['Formal confirmation from Product Manager that the product is ready to transition into normal operations'],
+    kpis: ['Number of on-boarded customers', 'Percentage of potential customers interested in the product', 'Size of sales pipeline'],
+  },
+  {
+    id: 6,
+    num: '07',
+    label: 'Monitoring\n& Evaluation',
+    icon: '📈',
+    filter: false,
+    owner: 'Product Manager',
+    title: 'Monitoring & Evaluation',
+    objective: 'Ensure the product performs according to the business case plan and trigger corrective action if significant deviation is identified.',
+    activities: [
+      'Review sales pipeline, sales, revenue, and cash flow reports on a regular basis',
+      'Review competition and update the competitive landscape',
+      'Identify any deviation from planned sales, revenue, and cash flow objectives',
+      'Trigger corrective action for significant deviations',
+      'Generate periodic product/offering performance reports',
+      'Committee attends periodic evaluations to analyse performance, impact, and lessons learned',
+      'Committee defines indicators and ensures accountability for resource allocation decisions',
+    ],
+    outputs: ['Product/offering performance report'],
+    kpis: ['Deviation of the product/offering from planned targets'],
+    cycleNote: 'Insights from this phase feed back into Ideation — closing the continuous innovation loop.',
+  },
+];
+
+let current = 0;
+
+function buildCycle() {
+  const wrap = document.getElementById('cycle-nodes');
+  wrap.innerHTML = '';
+  phases.forEach((p, i) => {
+    if (i > 0) {
+      const arr = document.createElement('span');
+      arr.className = 'cycle-arrow';
+      arr.textContent = '›';
+      wrap.appendChild(arr);
+    }
+    const node = document.createElement('div');
+    node.className = 'cycle-node';
+    const btn = document.createElement('button');
+    let cls = 'cn-btn';
+    if (p.filter) cls += ' filter-node';
+    if (i === current) cls += ' active';
+    btn.className = cls;
+    btn.innerHTML = `<div class="cn-num">${p.num}</div><div class="cn-name">${p.label.replace('\n','<br>')}</div>${p.filter ? '<span class="filter-badge">filter</span>' : ''}`;
+    btn.onclick = () => { current = i; render(); };
+    btn.title = p.title;
+    node.appendChild(btn);
+    wrap.appendChild(node);
+  });
+  const active = wrap.querySelector('.active');
+  if (active) active.scrollIntoView({behavior:'smooth',block:'nearest',inline:'center'});
+}
+
+function buildPanel() {
+  const p = phases[current];
+  const panel = document.getElementById('panel');
+
+  const iconCls = p.filter ? 'filter' : 'process';
+  let html = `<div class="panel-header">
+    <div class="ph-icon ${iconCls}">${p.icon}</div>
+    <div>
+      <div class="ph-title">${p.title}${p.filter ? ' <span style="font-size:11px;font-weight:400;color:var(--green);font-family:\'DM Mono\',monospace;margin-left:6px">● filter gate</span>' : ''}</div>
+      <div class="ph-owner">Owner: ${p.owner}</div>
+      <div class="ph-sub">${p.objective}</div>
+    </div>
+  </div>`;
+
+  html += `<div class="panel-body">`;
+
+  // Filter note
+  if (p.filterNote) {
+    html += `<div class="full"><div class="filter-explain">${p.filterNote}</div></div>`;
+  }
+
+  // Cycle-back note
+  if (p.cycleNote) {
+    html += `<div class="full"><div class="trigger-note">↺ <strong>Continuous loop:</strong> ${p.cycleNote}</div></div>`;
+  }
+
+  // Activities
+  html += `<div class="full">
+    <div class="sec-label">Key Activities</div>
+    <ul class="act-list">${p.activities.map(a=>`<li>${a}</li>`).join('')}</ul>
+  </div>`;
+
+  // Outputs
+  html += `<div class="section">
+    <div class="sec-label">Outputs</div>
+    <div class="pills">${p.outputs.map(o=>`<span class="pill out">${o}</span>`).join('')}</div>
+  </div>`;
+
+  // KPIs
+  html += `<div class="section">
+    <div class="sec-label">Performance Indicators</div>
+    <div class="pills">${p.kpis.map(k=>`<span class="pill kpi">${k}</span>`).join('')}</div>
+  </div>`;
+
+  // Special: Ideation — strategy focus areas
+  if (current === 0) {
+    html += `<div class="full">
+      <div class="sec-label">Fixed Solutions Innovation Strategy Focus Areas</div>
+      <div class="strategy-grid">
+        <div class="str-card"><div class="str-icon">🎯</div><div class="str-label">Customer-driven solutions</div></div>
+        <div class="str-card"><div class="str-icon">🔒</div><div class="str-label">Cybersecurity solutions</div><div class="str-desc">Enhancing client trust and compliance</div></div>
+        <div class="str-card"><div class="str-icon">☁️</div><div class="str-label">Subscription-based cloud services</div></div>
+        <div class="str-card"><div class="str-icon">⚡</div><div class="str-label">Scalability & operational efficiency</div></div>
+        <div class="str-card"><div class="str-icon">🖥️</div><div class="str-label">IT management outsourcing</div></div>
+        <div class="str-card"><div class="str-icon">🤖</div><div class="str-label">Technology adoption</div><div class="str-desc">AI/ML, automation, DevOps</div></div>
+      </div>
+    </div>`;
+  }
+
+  // Special: Idea Validation — committee structure
+  if (current === 1) {
+    html += `<div class="full">
+      <div class="sec-label">Idea Governance Advisory Committee — Membership</div>
+      <div class="committee-grid">
+        <div class="cm-card">
+          <div class="cm-card-title">Internal Members (Fixed Solutions Staff)</div>
+          <ul>
+            <li>Senior Marketing Officer (CMO / Marketing Manager)</li>
+            <li>Senior Commercial Officer (CCO / Sales Director)</li>
+            <li>CTO / Performance Excellence Officer</li>
+            <li>Head of PMO</li>
+          </ul>
+        </div>
+        <div class="cm-card">
+          <div class="cm-card-title">External Members (Industry Experts)</div>
+          <ul>
+            <li>Industry Expert</li>
+            <li>Marketing Expert</li>
+            <li>Customer Representatives (2–3)</li>
+            <li>Technology Expert</li>
+          </ul>
+        </div>
+      </div>
+      <div style="margin-top:10px;font-size:12px;color:var(--text-2);line-height:1.55;padding:12px 14px;background:var(--surface2);border-radius:8px;border:0.5px solid var(--border)">
+        Minimum 9 members total (≥4 internal + ~55% external votes). Chaired by CFO. External members are selected per meeting from a maintained database of advisors.
+      </div>
+    </div>`;
+  }
+
+  html += `</div>`;
+  panel.innerHTML = html;
+}
+
+function updateMeta() {
+  const pct = Math.round((current / (phases.length - 1)) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = `Phase ${current + 1} of ${phases.length}`;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('step-ctr').textContent = `${current + 1} / ${phases.length}`;
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === phases.length - 1;
+}
+
+function render() {
+  buildCycle();
+  buildPanel();
+  updateMeta();
+}
+
+function nav(dir) {
+  current = Math.max(0, Math.min(phases.length - 1, current + dir));
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

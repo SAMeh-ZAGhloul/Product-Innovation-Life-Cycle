@@ -1,0 +1,655 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Innovation Management Life Cycle — Fixed Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #F7F5F0;
+    --surface: #FFFFFF;
+    --surface2: #F0EDE6;
+    --border: rgba(0,0,0,0.10);
+    --border-strong: rgba(0,0,0,0.18);
+    --text: #1A1916;
+    --text-secondary: #6B6860;
+    --text-tertiary: #9A9890;
+    --purple: #534AB7;
+    --purple-light: #EEEDFE;
+    --purple-mid: #AFA9EC;
+    --amber: #BA7517;
+    --amber-light: #FAEEDA;
+    --amber-mid: #EF9F27;
+    --teal: #0F6E56;
+    --teal-light: #E1F5EE;
+    --blue: #185FA5;
+    --blue-light: #E6F1FB;
+    --green: #3B6D11;
+    --green-light: #EAF3DE;
+    --red-light: #FCEBEB;
+    --red: #A32D2D;
+    --accent: #534AB7;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  header {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 20px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .logo-mark {
+    width: 32px; height: 32px;
+    background: var(--purple);
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'DM Mono', monospace;
+    font-size: 13px; font-weight: 500;
+    color: #fff;
+    letter-spacing: -0.5px;
+  }
+  .logo-text {
+    font-size: 14px; font-weight: 500;
+    color: var(--text-secondary);
+    letter-spacing: 0.01em;
+  }
+  .doc-title {
+    font-size: 13px;
+    color: var(--text-tertiary);
+    font-family: 'DM Mono', monospace;
+  }
+
+  /* ── Layout ── */
+  .container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .page-title {
+    font-size: 28px;
+    font-weight: 300;
+    color: var(--text);
+    letter-spacing: -0.5px;
+    margin-bottom: 6px;
+  }
+  .page-sub {
+    font-size: 14px;
+    color: var(--text-secondary);
+    margin-bottom: 36px;
+  }
+
+  /* ── Progress bar ── */
+  .progress-wrap {
+    margin-bottom: 28px;
+  }
+  .progress-meta {
+    display: flex;
+    justify-content: space-between;
+    font-size: 12px;
+    color: var(--text-tertiary);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 6px;
+  }
+  .progress-track {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: var(--purple);
+    border-radius: 2px;
+    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ── Flow strip ── */
+  .flow-strip {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    margin-bottom: 28px;
+    scrollbar-width: thin;
+    scrollbar-color: var(--border) transparent;
+  }
+  .flow-strip::-webkit-scrollbar { height: 4px; }
+  .flow-strip::-webkit-scrollbar-track { background: transparent; }
+  .flow-strip::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+  .flow-node {
+    flex-shrink: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .flow-chevron {
+    flex-shrink: 0;
+    width: 16px;
+    text-align: center;
+    font-size: 11px;
+    color: var(--text-tertiary);
+    padding: 0 1px;
+  }
+
+  .stage-btn {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 8px 12px;
+    cursor: pointer;
+    min-width: 80px;
+    max-width: 96px;
+    text-align: center;
+    transition: all 0.15s;
+    outline: none;
+  }
+  .stage-btn:hover { border-color: var(--border-strong); background: var(--surface); transform: translateY(-1px); }
+  .stage-btn.active { border-color: var(--purple); background: var(--purple-light); }
+
+  .stage-num {
+    font-family: 'DM Mono', monospace;
+    font-size: 10px;
+    color: var(--text-tertiary);
+    margin-bottom: 3px;
+  }
+  .stage-btn.active .stage-num { color: var(--purple); }
+  .stage-name {
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text);
+    line-height: 1.3;
+  }
+  .stage-btn.active .stage-name { color: var(--purple); }
+
+  .gate-btn {
+    width: 48px; height: 48px;
+    border-radius: 50%;
+    background: var(--amber-light);
+    border: 1px solid var(--amber-mid);
+    cursor: pointer;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    gap: 1px;
+    transition: all 0.15s;
+    outline: none;
+  }
+  .gate-btn:hover { background: #FAC775; transform: scale(1.06); }
+  .gate-btn.active { background: var(--amber-mid); border-color: var(--amber); }
+  .gate-name {
+    font-size: 9px;
+    font-weight: 500;
+    color: var(--amber);
+    text-align: center;
+    line-height: 1.2;
+  }
+  .gate-btn.active .gate-name { color: #412402; }
+
+  /* ── Detail panel ── */
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    animation: fadeIn 0.2s ease;
+  }
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: translateY(0); } }
+
+  .panel-header {
+    padding: 24px 28px 20px;
+    border-bottom: 1px solid var(--border);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .panel-icon {
+    width: 44px; height: 44px;
+    border-radius: 10px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 20px;
+    flex-shrink: 0;
+  }
+  .panel-icon.is-stage { background: var(--purple-light); }
+  .panel-icon.is-gate { background: var(--amber-light); }
+
+  .panel-title { font-size: 19px; font-weight: 500; letter-spacing: -0.3px; color: var(--text); }
+  .panel-subtitle { font-size: 13px; color: var(--text-secondary); margin-top: 3px; }
+
+  .panel-body { padding: 24px 28px; display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+  @media (max-width: 640px) { .panel-body { grid-template-columns: 1fr; } }
+
+  .section { }
+  .section-label {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-tertiary);
+    font-family: 'DM Mono', monospace;
+    margin-bottom: 10px;
+  }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill {
+    font-size: 12px;
+    padding: 4px 10px;
+    border-radius: 20px;
+    border: 0.5px solid var(--border);
+    color: var(--text-secondary);
+    background: var(--surface2);
+    line-height: 1.4;
+  }
+  .pill.trigger { background: var(--amber-light); border-color: rgba(186,117,23,0.3); color: var(--amber); }
+  .pill.input   { background: var(--blue-light);  border-color: rgba(24,95,165,0.25); color: var(--blue); }
+  .pill.output  { background: var(--teal-light);  border-color: rgba(15,110,86,0.25); color: var(--teal); }
+  .pill.criteria{ background: var(--surface2);    border-color: var(--border-strong); color: var(--text); }
+  .pill.go      { background: var(--green-light); border-color: rgba(59,109,17,0.3);  color: var(--green); }
+  .pill.nogo    { background: var(--red-light);   border-color: rgba(163,45,45,0.3);  color: var(--red); }
+
+  .process-section { grid-column: 1 / -1; }
+  .process-list { list-style: none; display: grid; gap: 0; }
+  .process-list li {
+    font-size: 13px;
+    color: var(--text-secondary);
+    padding: 8px 0 8px 20px;
+    position: relative;
+    line-height: 1.55;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .process-list li:last-child { border-bottom: none; }
+  .process-list li::before {
+    content: '';
+    position: absolute; left: 4px; top: 16px;
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--purple-mid);
+  }
+
+  /* ── Navigation ── */
+  .nav-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    gap: 12px;
+  }
+  .nav-btn {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    padding: 9px 18px;
+    border-radius: 8px;
+    border: 1px solid var(--border-strong);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    transition: all 0.12s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nav-btn:hover:not(:disabled) { background: var(--surface2); border-color: var(--purple); color: var(--purple); }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .step-counter {
+    font-family: 'DM Mono', monospace;
+    font-size: 12px;
+    color: var(--text-tertiary);
+  }
+
+  /* ── Footer note ── */
+  .footer-note {
+    margin-top: 48px;
+    padding-top: 20px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--text-tertiary);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">FX</div>
+    <span class="logo-text">Fixed Solutions</span>
+  </div>
+  <span class="doc-title">Innovation Management Life Cycle</span>
+</header>
+
+<div class="container">
+
+  <h1 class="page-title">Innovation Management Life Cycle</h1>
+  <p class="page-sub">A comprehensive guide to managing innovation from opportunity to post-launch — click any stage or gate to explore it.</p>
+
+  <div class="progress-wrap">
+    <div class="progress-meta">
+      <span id="prog-label">Step 1 of 12</span>
+      <span id="prog-pct">0%</span>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="prog-fill"></div></div>
+  </div>
+
+  <div class="flow-strip" id="flow-strip"></div>
+
+  <div class="panel" id="panel"></div>
+
+  <div class="nav-row">
+    <button class="nav-btn" id="btn-prev" onclick="nav(-1)">← Previous</button>
+    <span class="step-counter" id="step-counter"></span>
+    <button class="nav-btn" id="btn-next" onclick="nav(1)">Next →</button>
+  </div>
+
+  <div class="footer-note">Fixed Solutions · Innovation Management Life Cycle Process · September 2024</div>
+</div>
+
+<script>
+const steps = [
+  {
+    type: 'stage', num: '01', label: 'Opportunity\nDefinition', icon: '🔭',
+    title: 'Opportunity Definition',
+    subtitle: 'Identify gaps worth pursuing',
+    triggers: ['Ongoing corporate planning','Marketing planning','Special opportunity analysis'],
+    inputs: ['Innovation gaps & search fields','Market intelligence','Technology intelligence'],
+    process: [
+      'Identify the business or technology gap between the current situation of a category of customers and their envisioned future',
+      'Frame as: capturing competitive advantage, responding to a threat, or solving a problem',
+      'Map the opportunity across four quadrants: Core Business, Adjacency, Disruptive Process Innovation, and White Space',
+      'Assess the nature of the opportunity vs. fit with current organisation',
+    ],
+    outputs: ['Defined opportunity space','Search field ready for ideation'],
+  },
+  {
+    type: 'gate', label: 'Commitment\nGate', icon: '✓',
+    title: 'Commitment Gate',
+    subtitle: 'Validate the opportunity is worth pursuing before investing in ideation',
+    criteria: ['Strategic alignment','Resource availability','Market timing & urgency','Innovation strategy fit'],
+    decisions: ['Go → proceed to Idea Creation','No Go → refine or shelve the opportunity'],
+  },
+  {
+    type: 'stage', num: '02', label: 'Idea Creation\n& Recognition', icon: '💡',
+    title: 'Idea Creation / Opportunity Recognition',
+    subtitle: 'Generate and gather ideas from all sources',
+    triggers: ['Ongoing corporate planning','Ongoing marketing planning','Special opportunity analysis'],
+    inputs: ['Customer interaction & RFPs/RFQs','Competitor actions & intelligence','Government decisions, regulations & trends','Identified problems from customers or sales force'],
+    process: [
+      'Creating: Market research via voice-of-customer — outcome-driven innovation, focus groups, empathic design, creativity techniques',
+      'Gathering: Internal brainstorming & creativity sessions, combining solutions, idea management database, co-creation with lead users',
+      'Co-creation techniques: Lead User Method, Netnography, Ideation contests',
+      'Minimum Viable Experiment (MVE): define hypothesis → identify core features → build prototype → select target audience → run experiment → analyse results → iterate',
+      'Minimum Marketable Feature (MMF): identify customer needs → prioritise features → develop smallest valuable set → test with customers → refine → launch',
+    ],
+    outputs: ['Idea Management System / Database','Idea Document: problem identification, solution, solution description, target customers'],
+  },
+  {
+    type: 'gate', label: 'Gate 1\nIdeas Eval.', icon: '⬡',
+    title: 'Gate 1: Ideas Evaluation',
+    subtitle: 'Filter and prioritise ideas using a weighted scoring matrix',
+    criteria: ['Strategic fit — 5%','Goal alignment — 5%','Expenses — 15%','Value generation potential — 45%','Threats — 10%','Opportunities — 20%'],
+    decisions: ['Go → proceed to Concept Development','No Go → return to idea pool or discard'],
+  },
+  {
+    type: 'stage', num: '03', label: 'Concept\nDevelopment', icon: '🧩',
+    title: 'Concept Development',
+    subtitle: 'Develop selected ideas into detailed, validated concepts',
+    triggers: ['Go decision from Gate 1 for one or more ideas'],
+    inputs: ['Preliminary Idea Document'],
+    process: [
+      'Co-creation and brainstorming sessions with cross-functional stakeholders',
+      'Validation of estimated inputs from the idea document',
+      'Meet responsible persons in target industries to pressure-test assumptions',
+      'Run market surveys to gather quantitative validation data',
+      'Research additional details and gather supporting data',
+    ],
+    outputs: ['Concept Document covering: detailed solution description, business issues & concerns, solution overview, proposed business value, application scenarios (When / Who / What), target market, market players'],
+  },
+  {
+    type: 'gate', label: 'Gate 2\nConcept Eval.', icon: '⬡',
+    title: 'Gate 2: Concept Evaluation',
+    subtitle: 'Assess feasibility and business fit of the developed concept',
+    criteria: ['Benefit to customer','Target market size (estimated)','Competition (estimated)','Alignment with market & technology','Availability of resources — financial and knowledge'],
+    decisions: ['Go → proceed to Building Business Case','No Go → revisit the concept or discard'],
+  },
+  {
+    type: 'stage', num: '04', label: 'Building\nBusiness Case', icon: '📊',
+    title: 'Building Business Case',
+    subtitle: 'Comprehensive analysis and formal documentation',
+    triggers: ['Go decision from Gate 2 Concept Evaluation'],
+    inputs: ['Approved Concept Document'],
+    process: [
+      'Market & competition analysis: size, structure, growth, entry barriers, customer analysis, competitive advantage',
+      'Financial projections: gross margin, time to break-even, capital intensity, R&D expenses',
+      'Technical feasibility assessment',
+      'Resource requirements and allocation planning',
+      'Risk assessment with mitigation strategies',
+      'Exit strategies and opportunity orientation',
+    ],
+    outputs: ['Comprehensive Business Case Document'],
+  },
+  {
+    type: 'gate', label: 'Gate 3\nBiz Case Eval.', icon: '⬡',
+    title: 'Gate 3: Business Case Evaluation',
+    subtitle: 'Investment decision — go or no-go for full implementation',
+    criteria: ['Market size, growth & entry barriers','Customer analysis & competitive advantage','Gross margin & time to break-even','Capital intensity & R&D expenses','Value-add potential & exit mechanism','Team assessment & technology review','Opportunity orientation'],
+    decisions: ['Go → proceed to Implementation','No Go → re-evaluate scope, budget, or overall viability'],
+  },
+  {
+    type: 'stage', num: '05', label: 'Implementation', icon: '⚙️',
+    title: 'Implementation',
+    subtitle: 'Plan, design, build, verify, and document the product',
+    triggers: ['Business Case approval from Gate 3'],
+    inputs: ['Approved Business Case Document'],
+    process: [
+      'Planning: project roadmap, resource allocation, timeline & monitoring',
+      'Requirement Analysis: Business, Marketing, Functional, Product, UI, Technical, Design, and Development Requirements Documents',
+      'Design: software architecture specification, low-level algorithm & high-level architecture design, considerations for Compatibility / Extensibility / Maintainability / Modularity / Performance / Scalability',
+      'Design Documents: Data Design, Architecture Design, Interface Design, Procedure Design',
+      'Development: constructing/coding based on design-stage outputs',
+      'Verification: testing and debugging',
+      'Documentation: all artifacts captured and stored',
+    ],
+    outputs: ['Software Product ready for launch'],
+    escalation: true,
+  },
+  {
+    type: 'stage', num: '06', label: 'Launch', icon: '🚀',
+    title: 'Launch',
+    subtitle: 'Bring the product to market and drive mass adoption',
+    triggers: ['Product ready — all verification complete'],
+    inputs: ['Accepted offering / proposal'],
+    process: [
+      'Confirm testing and quality assurance pass',
+      'Complete, review, and distribute all needed sales collateral',
+      'Optimise product and company website',
+      'Conduct sales training and finalise go-to-market plan',
+      'Develop, review, and post after-sale support documentation',
+      'Complete customer support training',
+      'Finalise product pricing structure',
+      'Ensure all customer contracts, T&Cs, legal and regulatory docs are vetted',
+      'Mass Adoption strategy: market research → product usability → marketing strategy (digital, social, influencers, traditional) → customer education → incentives → feedback loop → scalability → customer support',
+    ],
+    outputs: ['Full product document handed to the sales team'],
+  },
+  {
+    type: 'stage', num: '07', label: 'PM Handover', icon: '🤝',
+    title: 'Product Manager Handover',
+    subtitle: 'Structured transition to ongoing product ownership',
+    triggers: ['End of Launch stage'],
+    inputs: ['Product Documentation (all artefacts from prior stages)'],
+    process: [
+      'Detailed handover process ensures smooth transition to the Product Manager',
+      'Product Manager assumes full ownership for post-launch operations and roadmap',
+    ],
+    outputs: ['Product under active Product Manager ownership'],
+  },
+  {
+    type: 'stage', num: '08', label: 'Post-Launch\n& Maintenance', icon: '🔄',
+    title: 'Post-Launch & Maintenance',
+    subtitle: 'Monitor, improve, and sustain the product over time',
+    triggers: ['Product Manager Handover complete'],
+    inputs: ['Live product, user analytics, support tickets'],
+    process: [
+      'Collect and analyse user feedback continuously using robust feedback mechanisms',
+      'Release updates and patches on regular cycles (Complex: comprehensive patch mgmt; Medium: standard cycles; Simple: occasional updates)',
+      'Monitor post-launch performance against KPIs using advanced monitoring tools',
+      'Provide excellent customer support to assist users and resolve issues quickly',
+      'Conduct post-mortem analysis — identify lessons learned and implement improvements',
+      'Plan product retirement when appropriate: data migration, communication plan, stakeholder notification',
+    ],
+    outputs: ['Updated product versions','Performance & analytics reports','Roadmap for the next innovation cycle'],
+  },
+];
+
+let current = 0;
+
+function buildFlow() {
+  const strip = document.getElementById('flow-strip');
+  strip.innerHTML = '';
+  steps.forEach((s, i) => {
+    if (i > 0) {
+      const chev = document.createElement('span');
+      chev.className = 'flow-chevron';
+      chev.textContent = '›';
+      strip.appendChild(chev);
+    }
+    const wrap = document.createElement('div');
+    wrap.className = 'flow-node';
+    if (s.type === 'gate') {
+      const btn = document.createElement('button');
+      btn.className = 'gate-btn' + (i === current ? ' active' : '');
+      btn.innerHTML = `<span class="gate-name">${s.label.replace('\n','<br>')}</span>`;
+      btn.onclick = () => { current = i; render(); };
+      btn.title = s.title;
+      wrap.appendChild(btn);
+    } else {
+      const btn = document.createElement('button');
+      btn.className = 'stage-btn' + (i === current ? ' active' : '');
+      btn.innerHTML = `<div class="stage-num">${s.num}</div><div class="stage-name">${s.label.replace('\n','<br>')}</div>`;
+      btn.onclick = () => { current = i; render(); };
+      btn.title = s.title;
+      wrap.appendChild(btn);
+    }
+    strip.appendChild(wrap);
+  });
+  // Scroll active into view
+  const active = strip.querySelector('.active');
+  if (active) active.scrollIntoView({ behavior: 'smooth', block: 'nearest', inline: 'center' });
+}
+
+function buildPanel() {
+  const s = steps[current];
+  const panel = document.getElementById('panel');
+
+  let headerHtml = `
+    <div class="panel-header">
+      <div class="panel-icon is-${s.type}">${s.icon}</div>
+      <div>
+        <div class="panel-title">${s.title}</div>
+        <div class="panel-subtitle">${s.subtitle}</div>
+      </div>
+    </div>`;
+
+  let bodyHtml = `<div class="panel-body">`;
+
+  if (s.type === 'stage') {
+    if (s.triggers) {
+      bodyHtml += `<div class="section">
+        <div class="section-label">Triggers</div>
+        <div class="pills">${s.triggers.map(t=>`<span class="pill trigger">${t}</span>`).join('')}</div>
+      </div>`;
+    }
+    if (s.inputs) {
+      bodyHtml += `<div class="section">
+        <div class="section-label">Inputs</div>
+        <div class="pills">${s.inputs.map(t=>`<span class="pill input">${t}</span>`).join('')}</div>
+      </div>`;
+    }
+    if (s.process) {
+      bodyHtml += `<div class="section process-section">
+        <div class="section-label">Key Activities</div>
+        <ul class="process-list">${s.process.map(p=>`<li>${p}</li>`).join('')}</ul>
+      </div>`;
+    }
+    if (s.outputs) {
+      bodyHtml += `<div class="section" style="grid-column:1/-1">
+        <div class="section-label">Outputs</div>
+        <div class="pills">${s.outputs.map(o=>`<span class="pill output">${o}</span>`).join('')}</div>
+      </div>`;
+    }
+    if (s.escalation) {
+      bodyHtml += `<div class="section" style="grid-column:1/-1; padding:14px 16px; background:var(--amber-light); border-radius:10px; border:0.5px solid rgba(186,117,23,0.3);">
+        <div class="section-label" style="color:var(--amber)">Escalation Process</div>
+        <div style="font-size:13px;color:var(--text-secondary);line-height:1.6;">
+          Issues are addressed within <strong>24 hours</strong> by the stage owner. If unresolved within <strong>48 hours</strong>, they escalate to the Product Manager. Persistent issues with strategic impact escalate to <strong>Senior Management / Steering Committee</strong>. All escalations are documented and a post-escalation review is conducted.
+        </div>
+      </div>`;
+    }
+  } else {
+    if (s.criteria) {
+      bodyHtml += `<div class="section" style="grid-column:1/-1">
+        <div class="section-label">Evaluation Criteria</div>
+        <div class="pills">${s.criteria.map(c=>`<span class="pill criteria">${c}</span>`).join('')}</div>
+      </div>`;
+    }
+    if (s.decisions) {
+      bodyHtml += `<div class="section" style="grid-column:1/-1">
+        <div class="section-label">Possible Decisions</div>
+        <div class="pills">
+          ${s.decisions.map(d => `<span class="pill ${d.startsWith('Go') ? 'go' : 'nogo'}">${d}</span>`).join('')}
+        </div>
+      </div>`;
+    }
+  }
+
+  bodyHtml += `</div>`;
+  panel.innerHTML = headerHtml + bodyHtml;
+}
+
+function updateMeta() {
+  const pct = Math.round((current / (steps.length - 1)) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('prog-label').textContent = `Step ${current + 1} of ${steps.length}`;
+  document.getElementById('prog-pct').textContent = pct + '%';
+  document.getElementById('step-counter').textContent = `${current + 1} / ${steps.length}`;
+  document.getElementById('btn-prev').disabled = current === 0;
+  document.getElementById('btn-next').disabled = current === steps.length - 1;
+}
+
+function render() {
+  buildFlow();
+  buildPanel();
+  updateMeta();
+}
+
+function nav(dir) {
+  current = Math.max(0, Math.min(steps.length - 1, current + dir));
+  render();
+}
+
+render();
+</script>
+</body>
+</html>

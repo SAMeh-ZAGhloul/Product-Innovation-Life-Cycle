@@ -1,0 +1,903 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Optimized Innovation Lifecycle — Fixed Solutions</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Syne:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #0F0E0C;
+    --ink2: #4A4840;
+    --ink3: #8A8880;
+    --bg: #F9F7F3;
+    --surface: #FFFFFF;
+    --surface2: #F2EFE8;
+    --border: rgba(15,14,12,0.10);
+    --border2: rgba(15,14,12,0.18);
+    --accent: #1C4A32;
+    --accent-l: #E8F2ED;
+    --accent-m: #3B7A58;
+    --gate: #7A3B1E;
+    --gate-l: #F5EDE8;
+    --gate-m: #C4622E;
+    --blue: #1A3A5C;
+    --blue-l: #E8EEF5;
+    --purple: #3B2A6B;
+    --purple-l: #EDEAF7;
+    --gold: #6B5000;
+    --gold-l: #F5F0E0;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Syne', sans-serif;
+    background: var(--bg);
+    color: var(--ink);
+    min-height: 100vh;
+    font-size: 15px;
+    line-height: 1.6;
+  }
+
+  /* ── Grain overlay ── */
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.4;
+  }
+
+  /* ── Header ── */
+  header {
+    position: sticky; top: 0; z-index: 100;
+    background: rgba(249,247,243,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 32px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .logo {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .logo-mark {
+    width: 28px; height: 28px; border-radius: 6px;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500; color: #fff;
+    letter-spacing: -0.5px;
+  }
+  .logo-name {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 600;
+    color: var(--ink2);
+    letter-spacing: 0.02em;
+  }
+  .doc-tag {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink3);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .version-pill {
+    background: var(--accent-l); color: var(--accent);
+    border: 0.5px solid rgba(28,74,50,0.2);
+    border-radius: 20px; padding: 2px 9px;
+    font-size: 10px; font-weight: 500; font-family: 'JetBrains Mono', monospace;
+  }
+
+  /* ── Hero ── */
+  .hero {
+    padding: 64px 32px 48px;
+    max-width: 900px; margin: 0 auto;
+    position: relative; z-index: 1;
+  }
+  .hero-eyebrow {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.12em;
+    color: var(--accent-m);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .hero-eyebrow::before {
+    content: '';
+    display: inline-block; width: 24px; height: 1px;
+    background: var(--accent-m);
+  }
+  .hero-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(36px, 5vw, 56px);
+    font-weight: 400;
+    line-height: 1.1;
+    letter-spacing: -1px;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  .hero-title em {
+    font-style: italic;
+    color: var(--accent-m);
+  }
+  .hero-desc {
+    font-size: 16px; color: var(--ink2);
+    max-width: 580px; line-height: 1.7;
+    margin-bottom: 32px;
+  }
+
+  /* ── Summary stats ── */
+  .stats-row {
+    display: flex; flex-wrap: wrap; gap: 12px;
+    margin-bottom: 0;
+  }
+  .stat {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: 10px;
+    padding: 14px 20px;
+    display: flex; align-items: baseline; gap: 8px;
+  }
+  .stat-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px; color: var(--ink);
+    line-height: 1;
+  }
+  .stat-label {
+    font-size: 12px; color: var(--ink3);
+    line-height: 1.3;
+  }
+
+  /* ── Flow strip ── */
+  .flow-section {
+    background: var(--ink);
+    padding: 32px;
+    position: relative; z-index: 1;
+    overflow: hidden;
+  }
+  .flow-section::before {
+    content: '';
+    position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.03'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  }
+  .flow-inner {
+    max-width: 900px; margin: 0 auto;
+    position: relative;
+  }
+  .flow-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    color: rgba(255,255,255,0.4);
+    letter-spacing: 0.1em; text-transform: uppercase;
+    margin-bottom: 20px;
+  }
+  .flow-nodes {
+    display: flex; align-items: center; gap: 0;
+    overflow-x: auto; padding-bottom: 4px;
+    scrollbar-width: none;
+  }
+  .flow-nodes::-webkit-scrollbar { display: none; }
+  .flow-node { flex-shrink: 0; }
+  .flow-arrow {
+    flex-shrink: 0;
+    color: rgba(255,255,255,0.25);
+    font-size: 16px; padding: 0 4px;
+  }
+  .fn-btn {
+    background: rgba(255,255,255,0.06);
+    border: 1px solid rgba(255,255,255,0.12);
+    border-radius: 8px;
+    padding: 10px 14px;
+    cursor: pointer;
+    min-width: 90px; max-width: 108px;
+    text-align: center;
+    transition: all 0.15s;
+    outline: none;
+    color: rgba(255,255,255,0.7);
+  }
+  .fn-btn:hover {
+    background: rgba(255,255,255,0.10);
+    border-color: rgba(255,255,255,0.25);
+    transform: translateY(-2px);
+    color: #fff;
+  }
+  .fn-btn.active {
+    background: var(--accent);
+    border-color: var(--accent-m);
+    color: #fff;
+  }
+  .fn-btn.is-gate {
+    background: rgba(196,98,46,0.15);
+    border-color: rgba(196,98,46,0.35);
+    border-radius: 50%;
+    width: 56px; min-width: 56px; max-width: 56px;
+    height: 56px; padding: 4px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .fn-btn.is-gate:hover { background: rgba(196,98,46,0.25); }
+  .fn-btn.is-gate.active { background: var(--gate-m); border-color: var(--gate); }
+  .fn-num { font-family: 'JetBrains Mono', monospace; font-size: 9px; opacity: 0.6; margin-bottom: 3px; }
+  .fn-name { font-size: 10px; font-weight: 600; line-height: 1.3; }
+  .fn-gate-name { font-size: 9px; font-weight: 600; line-height: 1.25; text-align: center; color: rgba(255,255,255,0.8); }
+  .fn-btn.active .fn-num { opacity: 0.8; }
+  .fn-btn.is-gate.active .fn-gate-name { color: #fff; }
+
+  /* ── Progress ── */
+  .prog-wrap {
+    max-width: 900px; margin: 0 auto;
+    padding-top: 12px;
+    position: relative;
+  }
+  .prog-track {
+    height: 2px;
+    background: rgba(255,255,255,0.1);
+    border-radius: 1px; overflow: hidden;
+  }
+  .prog-fill {
+    height: 100%; background: var(--accent-m);
+    border-radius: 1px;
+    transition: width 0.4s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  /* ── Detail Panel ── */
+  .panel-section {
+    max-width: 900px; margin: 0 auto;
+    padding: 40px 32px 80px;
+    position: relative; z-index: 1;
+  }
+
+  .panel {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 16px;
+    overflow: hidden;
+    animation: slideUp 0.25s ease both;
+  }
+  @keyframes slideUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  .panel-top {
+    padding: 28px 32px 24px;
+    border-bottom: 1px solid var(--border);
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 16px; align-items: start;
+  }
+  .panel-icon {
+    width: 48px; height: 48px; border-radius: 12px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 22px; flex-shrink: 0;
+  }
+  .panel-icon.stage { background: var(--accent-l); }
+  .panel-icon.gate { background: var(--gate-l); }
+
+  .panel-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 24px; font-weight: 400;
+    letter-spacing: -0.3px; color: var(--ink);
+    line-height: 1.2;
+  }
+  .panel-owner {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink3);
+    margin-top: 4px;
+  }
+  .panel-objective {
+    font-size: 14px; color: var(--ink2);
+    margin-top: 6px; line-height: 1.65;
+  }
+  .gate-badge {
+    background: var(--gate-l); color: var(--gate);
+    border: 0.5px solid rgba(122,59,30,0.2);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 10px; font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+    white-space: nowrap; align-self: flex-start;
+  }
+  .stage-badge {
+    background: var(--accent-l); color: var(--accent);
+    border: 0.5px solid rgba(28,74,50,0.2);
+    border-radius: 20px; padding: 4px 12px;
+    font-size: 10px; font-weight: 600;
+    font-family: 'JetBrains Mono', monospace;
+    letter-spacing: 0.05em;
+    white-space: nowrap; align-self: flex-start;
+  }
+
+  .panel-body {
+    padding: 28px 32px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+  }
+  @media (max-width: 620px) { .panel-body { grid-template-columns: 1fr; } }
+  .full { grid-column: 1 / -1; }
+
+  .sec-label {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 9px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--ink3);
+    margin-bottom: 10px;
+    padding-bottom: 6px;
+    border-bottom: 0.5px solid var(--border);
+  }
+
+  .sources-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .src-badge {
+    font-size: 11px; padding: 3px 10px;
+    border-radius: 20px; line-height: 1.4;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .src-a { background: var(--blue-l); color: var(--blue); border: 0.5px solid rgba(26,58,92,0.2); }
+  .src-b { background: var(--accent-l); color: var(--accent); border: 0.5px solid rgba(28,74,50,0.2); }
+  .src-bp { background: var(--purple-l); color: var(--purple); border: 0.5px solid rgba(59,42,107,0.2); }
+
+  .act-list { list-style: none; }
+  .act-list li {
+    font-size: 13px; color: var(--ink2);
+    padding: 8px 0 8px 22px;
+    position: relative; line-height: 1.6;
+    border-bottom: 0.5px solid var(--border);
+  }
+  .act-list li:last-child { border-bottom: none; }
+  .act-list li::before {
+    content: '';
+    position: absolute; left: 4px; top: 17px;
+    width: 6px; height: 6px; border-radius: 50%;
+    background: var(--accent-l);
+    border: 1.5px solid var(--accent-m);
+  }
+
+  .pills { display: flex; flex-wrap: wrap; gap: 6px; }
+  .pill {
+    font-size: 12px; padding: 4px 11px;
+    border-radius: 20px; line-height: 1.4;
+  }
+  .pill-out { background: var(--accent-l); color: var(--accent); border: 0.5px solid rgba(28,74,50,0.2); }
+  .pill-kpi { background: var(--purple-l); color: var(--purple); border: 0.5px solid rgba(59,42,107,0.2); }
+
+  .rationale-box {
+    background: var(--surface2);
+    border-radius: 10px;
+    padding: 16px 18px;
+    border-left: 3px solid var(--accent-m);
+    border-radius: 0 10px 10px 0;
+  }
+  .rationale-box p {
+    font-size: 13px; color: var(--ink2);
+    line-height: 1.65;
+  }
+
+  /* ── Nav ── */
+  .nav-row {
+    display: flex; align-items: center;
+    justify-content: space-between;
+    margin-top: 24px;
+    gap: 12px;
+  }
+  .nav-btn {
+    font-family: 'Syne', sans-serif;
+    font-size: 13px; font-weight: 600;
+    padding: 10px 20px;
+    border-radius: 8px;
+    border: 1px solid var(--border2);
+    background: var(--surface);
+    color: var(--ink);
+    cursor: pointer;
+    transition: all 0.12s;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .nav-btn:hover:not(:disabled) {
+    background: var(--ink);
+    color: var(--bg);
+    border-color: var(--ink);
+  }
+  .nav-btn:disabled { opacity: 0.3; cursor: default; }
+  .step-counter {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 11px; color: var(--ink3);
+  }
+
+  /* ── Principles section ── */
+  .principles-section {
+    background: var(--surface2);
+    border-top: 1px solid var(--border);
+    padding: 56px 32px;
+    position: relative; z-index: 1;
+  }
+  .principles-inner { max-width: 900px; margin: 0 auto; }
+  .section-heading {
+    font-family: 'Instrument Serif', serif;
+    font-size: 28px; font-weight: 400;
+    letter-spacing: -0.3px; margin-bottom: 8px;
+  }
+  .section-sub {
+    font-size: 14px; color: var(--ink2); margin-bottom: 32px;
+  }
+  .principles-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 16px;
+  }
+  .principle-card {
+    background: var(--surface);
+    border: 0.5px solid var(--border2);
+    border-radius: 12px;
+    padding: 20px;
+    transition: transform 0.15s;
+  }
+  .principle-card:hover { transform: translateY(-2px); }
+  .pc-num {
+    font-family: 'Instrument Serif', serif;
+    font-size: 32px; color: var(--surface2);
+    line-height: 1; margin-bottom: 10px;
+    -webkit-text-stroke: 1px var(--border2);
+  }
+  .pc-title {
+    font-size: 13px; font-weight: 700;
+    color: var(--ink); margin-bottom: 6px;
+    letter-spacing: 0.01em;
+  }
+  .pc-desc {
+    font-size: 12px; color: var(--ink2);
+    line-height: 1.6;
+  }
+
+  /* ── Comparison strip ── */
+  .compare-section {
+    padding: 56px 32px;
+    position: relative; z-index: 1;
+  }
+  .compare-inner { max-width: 900px; margin: 0 auto; }
+  .compare-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 24px;
+    font-size: 13px;
+  }
+  .compare-table th {
+    text-align: left; padding: 10px 14px;
+    background: var(--ink); color: rgba(255,255,255,0.9);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 10px; font-weight: 500;
+    letter-spacing: 0.08em; text-transform: uppercase;
+  }
+  .compare-table th:first-child { border-radius: 8px 0 0 0; }
+  .compare-table th:last-child { border-radius: 0 8px 0 0; }
+  .compare-table td {
+    padding: 10px 14px;
+    border-bottom: 0.5px solid var(--border);
+    color: var(--ink2); vertical-align: top;
+    line-height: 1.5;
+  }
+  .compare-table td:first-child { font-weight: 600; color: var(--ink); }
+  .compare-table tr:last-child td { border-bottom: none; }
+  .compare-table tr:hover td { background: var(--surface2); }
+  .tag { font-size: 10px; padding: 2px 7px; border-radius: 10px; font-family: 'JetBrains Mono', monospace; }
+  .tag-a { background: var(--blue-l); color: var(--blue); }
+  .tag-b { background: var(--accent-l); color: var(--accent); }
+  .tag-new { background: var(--gold-l); color: var(--gold); }
+
+  /* ── Footer ── */
+  footer {
+    background: var(--ink);
+    color: rgba(255,255,255,0.5);
+    padding: 28px 32px;
+    font-size: 12px;
+    font-family: 'JetBrains Mono', monospace;
+    display: flex; justify-content: space-between;
+    flex-wrap: wrap; gap: 8px;
+    position: relative; z-index: 1;
+  }
+
+  @media (max-width: 640px) {
+    .hero { padding: 40px 20px 32px; }
+    .flow-section { padding: 24px 20px; }
+    .panel-section { padding: 28px 20px 60px; }
+    .panel-top { grid-template-columns: auto 1fr; padding: 20px; }
+    .panel-top > *:last-child { grid-column: 1/-1; }
+    .panel-body { padding: 20px; }
+    .principles-section, .compare-section { padding: 40px 20px; }
+    footer { padding: 20px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">
+    <div class="logo-mark">FX</div>
+    <span class="logo-name">Fixed Solutions</span>
+  </div>
+  <div class="doc-tag">
+    <span>Optimized Innovation Lifecycle</span>
+    <span class="version-pill">v2.0 Recommended</span>
+  </div>
+</header>
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-eyebrow">Innovation Process Design</div>
+  <h1 class="hero-title">The Optimized<br><em>Innovation Lifecycle</em></h1>
+  <p class="hero-desc">A streamlined, governance-first process synthesized from Fixed Solutions' two existing methodologies and industry best practice. Designed for clarity, measurability, and continuous operation.</p>
+  <div class="stats-row">
+    <div class="stat"><span class="stat-num">6</span><span class="stat-label">total steps<br>(vs. 14 and 7)</span></div>
+    <div class="stat"><span class="stat-num">2</span><span class="stat-label">filter gates<br>protecting investment</span></div>
+    <div class="stat"><span class="stat-num">∞</span><span class="stat-label">continuous loop<br>back to ideation</span></div>
+    <div class="stat"><span class="stat-num">3</span><span class="stat-label">complexity tiers<br>Simple / Medium / Complex</span></div>
+  </div>
+</section>
+
+<!-- Flow strip -->
+<section class="flow-section">
+  <div class="flow-inner">
+    <div class="flow-label">Process flow — click any step to explore</div>
+    <div class="flow-nodes" id="flow-nodes"></div>
+    <div class="prog-wrap">
+      <div class="prog-track"><div class="prog-fill" id="prog-fill"></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- Detail panel -->
+<section class="panel-section">
+  <div class="panel" id="panel"></div>
+  <div class="nav-row">
+    <button class="nav-btn" id="btn-prev" onclick="nav(-1)">← Previous</button>
+    <span class="step-counter" id="step-counter"></span>
+    <button class="nav-btn" id="btn-next" onclick="nav(1)">Next →</button>
+  </div>
+</section>
+
+<!-- Design principles -->
+<section class="principles-section">
+  <div class="principles-inner">
+    <h2 class="section-heading">Design principles</h2>
+    <p class="section-sub">Six decisions that shape the optimized process.</p>
+    <div class="principles-grid">
+      <div class="principle-card">
+        <div class="pc-num">01</div>
+        <div class="pc-title">Minimum viable process</div>
+        <div class="pc-desc">Concept Development and Business Case (once separate stages) are merged. Build, Launch Prep, and Launch are unified into one delivery phase with a readiness checkpoint before go-live.</div>
+      </div>
+      <div class="principle-card">
+        <div class="pc-num">02</div>
+        <div class="pc-title">Both gates are non-negotiable</div>
+        <div class="pc-desc">Filtering ideas before business case investment and before build investment delivers the highest ROI of any process element. Both gates are retained and strengthened.</div>
+      </div>
+      <div class="principle-card">
+        <div class="pc-num">03</div>
+        <div class="pc-title">Governance from Policy v1.0</div>
+        <div class="pc-desc">The Idea Governance Advisory Committee — CFO-chaired, ~55% external votes, conflict-of-interest rules, quarterly monitoring role — is adopted wholesale from the v1.0 policy.</div>
+      </div>
+      <div class="principle-card">
+        <div class="pc-num">04</div>
+        <div class="pc-title">Implementation depth from the Guide</div>
+        <div class="pc-desc">Agile/Scrum, the 24hr/48hr escalation chain, three complexity tiers (Complex/Medium/Simple), and the formal launch readiness confirmation are all carried forward.</div>
+      </div>
+      <div class="principle-card">
+        <div class="pc-num">05</div>
+        <div class="pc-title">KPIs at every phase</div>
+        <div class="pc-desc">Process A had no per-stage metrics. The optimized process defines measurable outcomes at every step, making performance visible and improvement actionable.</div>
+      </div>
+      <div class="principle-card">
+        <div class="pc-num">06</div>
+        <div class="pc-title">Continuous loop, not a project</div>
+        <div class="pc-desc">Monitor & Improve feeds validated market insights, customer needs, and competitive intelligence directly back into Strategic Ideation — making innovation an operating discipline.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- What changed table -->
+<section class="compare-section">
+  <div class="compare-inner">
+    <h2 class="section-heading">What changed and why</h2>
+    <p class="section-sub">Traceability from source processes to the optimized design.</p>
+    <table class="compare-table">
+      <thead>
+        <tr>
+          <th style="width:22%">Element</th>
+          <th style="width:26%">In the optimized process</th>
+          <th style="width:16%">Source</th>
+          <th>Rationale</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Process steps</td>
+          <td>6 (4 stages + 2 gates)</td>
+          <td><span class="tag tag-new">Redesigned</span></td>
+          <td>Reduces 14-step and 7-step processes by merging sequential phases with the same owner and output type</td>
+        </tr>
+        <tr>
+          <td>Governance committee</td>
+          <td>Idea Governance Advisory Committee — CFO chair, 9+ members, ~55% external, conflict-of-interest rules</td>
+          <td><span class="tag tag-b">Policy v1.0</span></td>
+          <td>Process A had no formal committee. External members bring market perspective and reduce internal bias</td>
+        </tr>
+        <tr>
+          <td>Idea Qualification Criteria</td>
+          <td>Weighted scoring matrix, min. 55% threshold</td>
+          <td><span class="tag tag-a">Guide</span> <span class="tag tag-b">Policy v1.0</span></td>
+          <td>Combines Guide's 6-criteria weighted matrix with Policy's minimum threshold and written feedback requirement</td>
+        </tr>
+        <tr>
+          <td>MVE / rapid prototyping</td>
+          <td>Introduced at Ideation stage — before committee submission</td>
+          <td><span class="tag tag-a">Guide</span></td>
+          <td>Policy v1.0 had no experimentation mechanism. Running lightweight MVEs before Gate 1 reduces the cost of rejection</td>
+        </tr>
+        <tr>
+          <td>Business case depth</td>
+          <td>TAM/SAM/SOM, P&L, cash flow, payback period, competitive landscape, risk register</td>
+          <td><span class="tag tag-b">Policy v1.0</span></td>
+          <td>Policy v1.0's business case framework is the most rigorous and is adopted in full</td>
+        </tr>
+        <tr>
+          <td>Complexity tiers</td>
+          <td>Complex / Medium / Simple — scales Agile methodology, testing depth, and documentation requirements</td>
+          <td><span class="tag tag-a">Guide</span></td>
+          <td>Policy v1.0 applied a single process to all ideas regardless of size — creating unnecessary overhead for simple initiatives</td>
+        </tr>
+        <tr>
+          <td>Escalation process</td>
+          <td>24hr resolution → 48hr PM escalation → Investment Committee for strategic issues</td>
+          <td><span class="tag tag-a">Guide</span></td>
+          <td>Policy v1.0 mentioned escalation without defining it. Clear SLAs prevent issues from stalling delivery</td>
+        </tr>
+        <tr>
+          <td>KPIs per phase</td>
+          <td>Defined measurable outcomes at every stage and gate</td>
+          <td><span class="tag tag-b">Policy v1.0</span></td>
+          <td>Process A had no per-stage metrics. Without measurement, improvement is guesswork</td>
+        </tr>
+        <tr>
+          <td>Continuous loop</td>
+          <td>Monitor & Improve feeds insights back into Strategic Ideation</td>
+          <td><span class="tag tag-b">Policy v1.0</span></td>
+          <td>Process A was purely linear. The feedback loop transforms innovation from a project into a sustained capability</td>
+        </tr>
+        <tr>
+          <td>Product retirement</td>
+          <td>Included within Monitor & Improve — data migration, user communication, sunset timeline</td>
+          <td><span class="tag tag-a">Guide</span></td>
+          <td>Policy v1.0 had no retirement path. Products without a planned sunset accumulate technical debt and support cost</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<footer>
+  <span>Fixed Solutions · Optimized Innovation Lifecycle v2.0</span>
+  <span>Synthesized from: Process Guide (Sep 2024) + Innovation Lifecycle Policy v1.0 (Mar 2026) + Best Practice</span>
+</footer>
+
+<script>
+const phases = [
+  {
+    num:'01', label:'Strategic\nIdeation', gate:false, icon:'🔭',
+    title:'Strategic Ideation',
+    badge:'Phase 01',
+    owner:'VP of Growth & RevOps',
+    objective:'Generate a continuous, strategy-aligned flow of qualified innovation ideas from internal and external sources — with lightweight validation before formal submission.',
+    activities:[
+      'Maintain a live innovation strategy document defining scope, focus areas, and minimum idea criteria — reviewed annually by the committee',
+      'Actively invite ideas via structured channels: internal submissions, customer advisory sessions, competitive intelligence reviews, technology scouting',
+      'Every idea uses the Idea Brief template: pain/opportunity, solution vision, target customer persona, estimated market size (with evidence), competitors, differentiators, strategy alignment, and high-level resource needs',
+      'Apply MVE mindset early: encourage submitters to run lightweight experiments before formal submission to validate core assumptions cheaply',
+      'Maintain a live Idea Database — all submissions logged, visible to relevant stakeholders, never silently discarded',
+      'Rate ideas against the Idea Qualification Criteria (minimum 55% threshold); provide written feedback on rejected ideas with specific improvement recommendations',
+      'Trigger Idea Governance Advisory Committee meeting when: 5 months pass without a meeting, 8+ ideas are queued, or a high-urgency idea is identified',
+    ],
+    outputs:['Qualified idea shortlist with Idea Brief documents', 'Agreed date for Gate 1 committee meeting', 'Ideas Database updated'],
+    kpis:['Ideas submitted per quarter', 'Percentage of submitted ideas reaching 55% qualification threshold', 'Number of ideas approved at Gate 1'],
+    sources:['A','B','BP'],
+    rationale:'Combines Process A\'s deep ideation techniques (MVE, MMF, outcome-driven innovation, voice-of-customer, co-creation) with Process B\'s structured submission template, strategy alignment requirement, and database approach.',
+  },
+  {
+    num:'G1', label:'Idea\nValidation', gate:true, icon:'✓',
+    title:'Gate 1: Idea Validation',
+    badge:'Filter Gate',
+    owner:'Idea Governance Advisory Committee (chaired by CFO)',
+    objective:'Approve ideas for business case development. Filter out weak ideas before any significant resources are committed. No further investment proceeds without a Go decision here.',
+    activities:[
+      'Committee composition: min. 9 members — 4 internal (CMO, CCO, CTO, Head of PMO) + 5 external (industry expert, marketing expert, 2–3 customer reps, technology expert) — ~55% external votes',
+      'Pre-meeting: send Idea Brief documents to all members for individual review (max 8 ideas per meeting)',
+      'Per idea: 10 min presentation by idea owner → 10 min committee Q&A → 10 min scoring and comment documentation',
+      'Scoring criteria: strategic fit (10%), market demand and pain validity (25%), competitive differentiation (20%), technical feasibility (15%), resource requirements (10%), implementation risk (10%), innovation potential (10%)',
+      'Rank all ideas by weighted score; allow 20 min group deliberation',
+      'Committee may: approve, reject, request refinement, recommend pivot, identify critical assumptions, commission market experiments',
+      'Approved ideas receive allocated budget and timeline for Business Case development',
+    ],
+    outputs:['Approved ideas list with individual budget and timeline', 'Written feedback for all rejected or deferred ideas'],
+    kpis:['Percentage of approved ideas eventually converted to launched products', 'Average score of approved vs. rejected ideas over time'],
+    sources:['A','B'],
+    rationale:'Merges Process A\'s weighted MVP Ranking Matrix (rebalanced to weight market demand higher) with Process B\'s formal committee structure, conflict-of-interest rules, external membership requirement, and structured meeting protocol.',
+  },
+  {
+    num:'02', label:'Business\nCase Dev.', gate:false, icon:'📊',
+    title:'Business Case Development',
+    badge:'Phase 02',
+    owner:'VP of Growth & RevOps + designated Product Manager',
+    objective:'Produce a rigorous, evidence-based business case that enables a confident investment decision and sets measurable implementation targets.',
+    activities:[
+      'Refine concept: pain validation, solution definition, target market, and operational model (how sold, delivered, supported, billed)',
+      'Market sizing with evidence-backed assumptions: TAM, SAM, and SOM',
+      'Competitive landscape map: key competitors, differentiators, and proposed competitive strategy',
+      'Technical feasibility and high-level solution architecture (where applicable)',
+      'Financial model: per-unit cost model, revenue model, detailed cash flow forecast, P&L, required investment, and payback period',
+      'Project plan: timeline and cost breakdown covering infrastructure, development, partnerships, sales training, and marketing',
+      'Risk register: critical success factors, key risks with probability/impact assessment, and mitigation strategies',
+      'Document all findings in the Business Offering Proposal using the standard template',
+    ],
+    outputs:['Business Offering Proposal Document (full business case using standard template)'],
+    kpis:['Business cases submitted vs. approved at Gate 2', 'Deviation between forecasted and actual market performance at 6 and 12 months post-launch'],
+    sources:['A','B','BP'],
+    rationale:'Process B provides the most thorough business case framework — TAM/SAM/SOM, P&L, cash flow, payback period. Process A\'s risk register, competitive strategy section, and project planning checklist are added. The output is a single document using a standard template.',
+  },
+  {
+    num:'G2', label:'Investment\nApproval', gate:true, icon:'✓',
+    title:'Gate 2: Investment Approval',
+    badge:'Filter Gate',
+    owner:'Idea Governance Advisory Committee + CFO / Group CEO',
+    objective:'Allocate implementation budget only to business cases that demonstrate credible ROI, strategic fit, and manageable risk. No product development begins without a Go decision here.',
+    activities:[
+      'Full review of the Business Offering Proposal: assumptions, data sources, financial model, risk register, and competitive strategy',
+      'Challenge and stress-test assumptions — request additional market testing, pilot programs, or customer surveys if critical assumptions are unverified',
+      'Evaluate across: market size and growth rate, competitive advantage durability, gross margin, time to break-even, capital intensity, critical success factors, team capability, technology readiness',
+      'Committee votes on budget allocation for: product development, organizational readiness preparation, and launch execution',
+      'Issue formal Go/No-Go decision with written rationale',
+    ],
+    outputs:['Approved implementation budget and resourcing plan', 'Formal Go/No-Go decision with written rationale'],
+    kpis:['Revenue per unit of investment in approved projects (reported annually)', 'Gross profit per unit of investment (reported annually)', 'Number of unique customers from new products', 'New industries penetrated'],
+    sources:['B','BP'],
+    rationale:'Adopts Process B\'s investment committee structure and evaluation criteria. Adds Process A\'s detailed financial and technical review checklist. The formal written rationale requirement — for both Go and No-Go decisions — is a best-practice addition for institutional learning.',
+  },
+  {
+    num:'03', label:'Build &\nLaunch', gate:false, icon:'⚙️',
+    title:'Build & Launch',
+    badge:'Phase 03',
+    owner:'Product Manager',
+    objective:'Implement the product end-to-end and execute a successful market launch, with a formal readiness confirmation before go-live and deviation tracking from day one.',
+    activities:[
+      'Develop a detailed project plan from the approved business case. Assign Agile methodology scaled to complexity tier: Complex → SAFe; Medium → Scrum; Simple → Kanban',
+      'Requirements analysis scaled to tier: Complex = all 8 requirement document types; Medium = core 4; Simple = Product + Functional requirements',
+      'Design: architecture, data design, interface design — with attention to scalability, modularity, and maintainability',
+      'Development: iterative sprints with daily stand-ups and bi-weekly reviews; continuous integration and deployment',
+      'Testing scaled to tier: Complex = comprehensive unit + integration + UAT + pre-launch; Medium = standard; Simple = basic UAT',
+      'Escalation protocol: issues resolved within 24hrs by stage owner → not resolved in 48hrs escalates to Product Manager → strategic issues escalate to Investment Committee with written justification',
+      'Launch preparation: sales collateral, website, sales training, support documentation, customer support training, pricing finalized, legal and regulatory sign-off, go-to-market plan complete',
+      'Product Manager issues formal Launch Readiness Confirmation before go-live',
+      'Launch execution: marketing plan, sales plan, customer onboarding, market surveys, ongoing deviation tracking with root-cause analysis and corrective action',
+    ],
+    outputs:['Live product in market', 'Formal Launch Readiness Confirmation', 'Launch report with early metrics', 'Sales pipeline report vs. forecast'],
+    kpis:['On-boarded customers at 30/60/90 days post-launch', 'Sales pipeline size vs. business case forecast', 'Unplanned incident man-days as % of total implementation plan', 'Deviation from planned timeline and budget'],
+    sources:['A','B','BP'],
+    rationale:'Merges Process A\'s detailed implementation methodology (requirements, Agile, escalation chain) with Process B\'s launch execution steps and readiness confirmation protocol. The three complexity tiers from Process A prevent over-engineering simple products.',
+  },
+  {
+    num:'04', label:'Monitor\n& Improve', gate:false, icon:'📈',
+    title:'Monitor, Evaluate & Improve',
+    badge:'Phase 04',
+    owner:'Product Manager + Idea Governance Advisory Committee (quarterly)',
+    objective:'Ensure product performance meets business case targets, trigger corrective action on deviations, manage the product lifecycle through to retirement, and feed validated insights back into ideation.',
+    activities:[
+      'Track KPIs against business case targets monthly: revenue, gross margin, customer acquisition, pipeline growth, churn rate',
+      'Review competitive landscape quarterly — update strategy and differentiators as the market evolves',
+      'Identify significant deviations; trigger root-cause analysis and define corrective action with accountability assigned',
+      'Generate quarterly performance reports for the Investment Committee — committee attends these reviews to evaluate impact and ensure accountability',
+      'Collect continuous user feedback; release updates and patches on a cycle scaled to complexity tier (Complex = comprehensive patch management; Simple = occasional updates)',
+      'Conduct post-mortem analysis after major releases: lessons learned → documented in shared knowledge base → applied to process improvement',
+      'Assess product lifecycle stage periodically — plan retirement when appropriate: data migration plan, user communication timeline, stakeholder notification, sunset date',
+      'Feed validated market insights, unmet customer needs, competitive intelligence, and lessons learned back into Strategic Ideation — closing the continuous innovation loop',
+    ],
+    outputs:['Quarterly performance report', 'Updated competitive landscape', 'Corrective action log', 'Product retirement plan (when applicable)', 'Insights and intelligence fed to Ideation pipeline'],
+    kpis:['Revenue and margin deviation from business case targets', 'Customer satisfaction score (NPS or CSAT)', 'Number of product updates released per quarter', 'Percentage of user feedback items actioned within 90 days'],
+    sources:['A','B','BP'],
+    rationale:'Process B\'s continuous monitoring loop and committee oversight is adopted as the backbone. Process A\'s post-launch maintenance checklist and retirement stage are added. The explicit feedback mechanism into Ideation makes innovation genuinely continuous — transforming it from a project into a permanent operating capability.',
+  },
+];
+
+let cur = 0;
+
+function buildFlow() {
+  const wrap = document.getElementById('flow-nodes');
+  wrap.innerHTML = '';
+  phases.forEach((p, i) => {
+    if (i > 0) {
+      const a = document.createElement('span');
+      a.className = 'flow-arrow'; a.textContent = '›';
+      wrap.appendChild(a);
+    }
+    const node = document.createElement('div');
+    node.className = 'flow-node';
+    const btn = document.createElement('button');
+    let cls = 'fn-btn';
+    if (p.gate) cls += ' is-gate';
+    if (i === cur) cls += ' active';
+    btn.className = cls;
+    btn.title = p.title;
+    btn.onclick = () => { cur = i; render(); };
+    if (p.gate) {
+      btn.innerHTML = `<span class="fn-gate-name">${p.label.replace('\n','<br>')}</span>`;
+    } else {
+      btn.innerHTML = `<div class="fn-num">${p.num}</div><div class="fn-name">${p.label.replace('\n','<br>')}</div>`;
+    }
+    node.appendChild(btn);
+    wrap.appendChild(node);
+  });
+  const active = wrap.querySelector('.active');
+  if (active) active.scrollIntoView({ behavior:'smooth', block:'nearest', inline:'center' });
+}
+
+function srcLabel(s) {
+  const map = { A:'Process A (Guide)', B:'Policy v1.0', BP:'Best practice' };
+  const cls = { A:'src-a', B:'src-b', BP:'src-bp' };
+  return `<span class="src-badge ${cls[s]}">${map[s]}</span>`;
+}
+
+function buildPanel() {
+  const p = phases[cur];
+  const iconCls = p.gate ? 'gate' : 'stage';
+  const badgeCls = p.gate ? 'gate-badge' : 'stage-badge';
+
+  let html = `<div class="panel-top">
+    <div class="panel-icon ${iconCls}">${p.icon}</div>
+    <div>
+      <div class="panel-title">${p.title}</div>
+      <div class="panel-owner">Owner: ${p.owner}</div>
+      <div class="panel-objective">${p.objective}</div>
+    </div>
+    <div class="${badgeCls}">${p.badge}</div>
+  </div>
+  <div class="panel-body">
+    <div class="full">
+      <div class="sec-label">Sources</div>
+      <div class="sources-row">${p.sources.map(s => srcLabel(s)).join('')}</div>
+    </div>
+    <div class="full">
+      <div class="sec-label">Key activities</div>
+      <ul class="act-list">${p.activities.map(a => `<li>${a}</li>`).join('')}</ul>
+    </div>
+    <div>
+      <div class="sec-label">Outputs</div>
+      <div class="pills">${p.outputs.map(o => `<span class="pill pill-out">${o}</span>`).join('')}</div>
+    </div>
+    <div>
+      <div class="sec-label">KPIs to track</div>
+      <div class="pills">${p.kpis.map(k => `<span class="pill pill-kpi">${k}</span>`).join('')}</div>
+    </div>
+    <div class="full">
+      <div class="sec-label">Design rationale</div>
+      <div class="rationale-box"><p>${p.rationale}</p></div>
+    </div>
+  </div>`;
+
+  document.getElementById('panel').innerHTML = html;
+}
+
+function updateMeta() {
+  const pct = Math.round((cur / (phases.length - 1)) * 100);
+  document.getElementById('prog-fill').style.width = pct + '%';
+  document.getElementById('step-counter').textContent = `${cur + 1} / ${phases.length}`;
+  document.getElementById('btn-prev').disabled = cur === 0;
+  document.getElementById('btn-next').disabled = cur === phases.length - 1;
+}
+
+function render() { buildFlow(); buildPanel(); updateMeta(); }
+function nav(d) { cur = Math.max(0, Math.min(phases.length - 1, cur + d)); render(); }
+
+render();
+</script>
+</body>
+</html>
